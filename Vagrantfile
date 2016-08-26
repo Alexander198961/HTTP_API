@@ -14,10 +14,10 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   #config.vm.define  = "nixos"
   #config.vm.box = "hashicorp/precise64"
-  config.vm.box = "flyingcircus/nixos-14.12-i686"
+  config.vm.box = "zimbatm/nixos-15.09-x86_64"
 #  config.vm.forward_port 80, 8080
  # config.vm.forward_port 443, 8443
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 80, host: 8081
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -48,13 +48,13 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+   config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+     vb.memory = "2256"
+   end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -70,13 +70,13 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
-   sudo nix-env -i apache-httpd-2.4.12
-   sudo useradd daemon
-   sudo cp /vagrant/configuration.nix /etc/nixos/
+   sudo nix-env -i apache-httpd
+#   sudo cp /vagrant/configuration.nix /etc/nixos/
+
    sudo nixos-rebuild switch
    sudo mkdir /files
-   sudo chown -R daemon /files
-   sudo chmod a+w /files 
+   sudo chown wwwrun /files
+   iptables -F   
       
   #   apt-get update
   #   apt-get install -y apache2
