@@ -46,13 +46,11 @@
   adminAddr = "alexander198961@gmail.com";
   documentRoot = "/vagrant";
   extraConfig = ''
-#  <Directory />
-#    Options None
-#    Order deny,allow
- #   Deny from all
- #</Directory>
+  <Files  ~ "\.nix$">
+  Order allow,deny
+  Deny from all
+  </Files>
   RewriteEngine on
-  Options +FollowSymlinks
   RewriteRule "^/api/(.*)$" "/controller.php?file=$1"
   RedirectMatch 404  "/"
   RedirectMatch 404  "/(.*)$" 
@@ -82,8 +80,6 @@
       }
     ];
   };
-
-
   security.sudo.configFile =
     ''
       Defaults:root,%wheel env_keep+=LOCALE_ARCHIVE

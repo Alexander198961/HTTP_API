@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "zimbatm/nixos-15.09-x86_64"
 #  config.vm.forward_port 80, 8080
  # config.vm.forward_port 443, 8443
-  config.vm.network "forwarded_port", guest: 80, host: 8081
+  config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -71,14 +71,11 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
    sudo nix-env -i apache-httpd
-#   sudo cp /vagrant/configuration.nix /etc/nixos/
+   sudo cp /vagrant/configuration.nix /etc/nixos/
 
    sudo nixos-rebuild switch
    sudo mkdir /files
    sudo chown wwwrun /files
-   iptables -F   
-      
-  #   apt-get update
-  #   apt-get install -y apache2
+   iptables -F nixos-fw-log-refuse  
    SHELL
 end
